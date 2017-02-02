@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<!-- <p>Image to use:</p>
+<img id="wood" width="220" height="277" src="wood.jpg" alt="The Board">
+ -->
+<!-- <p>Canvas:</p>
+<canvas id="myCanvas" width="240" height="297" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.
+</canvas> -->
+
+<svg id="grid" height="800" width="850" border="1" bordercolor='black'>
+    <image xlink:href="wood.jpg" x="0" y="-60" height="520" width="400" preserveAspectRatio = "none"/> 
+ 
+	<path id="line1" d="M 200 20 l -160 380" stroke="gray" stroke-width="3" fill="none" />
+	<path id="line2" d="M 40 400 l 80 0" stroke="gray" stroke-width="3" fill="none" />
+	<path id="line3" d="M 120 400 l 80 -380" stroke="gray" stroke-width="3" fill="none" />
+	<path id="line1" d="M 200 20 l 0 380" stroke="gray" stroke-width="3" fill="none" />
+	<path id="line2" d="M 200 400 l -80 0" stroke="gray" stroke-width="3" fill="none" />
+	<path id="line2" d="M 120 400 l 160 0" stroke="gray" stroke-width="3" fill="none" />
+	<path id="line3" d="M 280 400 l -80 -380" stroke="gray" stroke-width="3" fill="none" />	
+	<path id="line4" d="M 200 20 l 160 380" stroke="gray" stroke-width="3" fill="none" />
+	<path id="line4" d="M 360 400 l -80 0" stroke="gray" stroke-width="3" fill="none" />
+	<path id="line4" d="M 40 160 l 320 0" stroke="gray" stroke-width="3" fill="none" />
+	<path id="line4" d="M 360 210 l -320 0" stroke="gray" stroke-width="3" fill="none" />
+	<path id="line4" d="M 40 260 l 320 0" stroke="gray" stroke-width="3" fill="none" />
+	<path id="line4" d="M 40 160 l 0 100" stroke="gray" stroke-width="3" fill="none" />
+	<path id="line4" d="M 360 160 l 0 100" stroke="gray" stroke-width="3" fill="none" />
+
+	<g stroke="black" stroke-width="3" fill="black">
+	    <circle id="1" cx="200" cy="20" r="3" />
+	    <rect id="puli-1" x="195" y="15" width="10" height="10" style="fill:rgb(255,0,0);stroke-width:1;stroke:rgb(0,0,0)" />
+	    <circle id="2" cx="40" cy="160" r="3" />
+	    <!-- stroke="blue" stroke-width="3" fill="blue"/> -->
+	    <circle id="3" cx="140" cy="160" r="3" />
+	    <circle id="4" cx="170" cy="160" r="3" />
+	    <circle id="5" cx="200" cy="160" r="3" />
+	    <circle id="6" cx="230" cy="160" r="3" />
+	    <circle id="7" cx="260" cy="160" r="3" />
+	    <circle id="8" cx="360" cy="160" r="3" />
+
+	    <circle id="9" cx="40" cy="210" r="3" />
+	    <circle id="10" cx="120" cy="210" r="3" />
+	    <circle id="11" cx="160" cy="210" r="3" />
+	    <circle id="12" cx="200" cy="210" r="3" />
+	    <circle id="13" cx="240" cy="210" r="3" />
+	    <circle id="14" cx="280" cy="210" r="3" />
+	    <circle id="15" cx="360" cy="210" r="3" />
+
+	    <circle id="16" cx="40" cy="260" r="3" />
+	    <circle id="17" cx="99" cy="260" r="3" />
+	    <circle id="18" cx="150" cy="260" r="3" />
+	    <circle id="19" cx="200" cy="260" r="3" />
+	    <circle id="20" cx="250" cy="260" r="3" />
+	    <circle id="21" cx="300" cy="260" r="3" />
+	    <circle id="22" cx="360" cy="260" r="3" />
+
+	    <circle id="23" cx="40" cy="400" r="3" />
+	    <circle id="24" cx="120" cy="400" r="3" />
+	    <circle id="25" cx="200" cy="400" r="3" />
+	    <circle id="26" cx="280" cy="400" r="3" />
+	    <circle id="27" cx="360" cy="400" r="3" />
+  	</g>
+
+	<!--polyline points="200,20 40,25 60,40 80,120 120,140 200,180"
+  		style="fill:this_image;stroke:red;stroke-width:3" / -->
+</svg>
+<script>
+// window.onload = function() {
+//     var c = document.getElementById("grid");
+//     var ctx = c.getContext("2d");
+//     var img = document.getElementById("wood");
+//     ctx.drawImage(img, 90,130,50,60,10,10,60,60);
+// }
+</script>
+
+
+</body>
+</html>

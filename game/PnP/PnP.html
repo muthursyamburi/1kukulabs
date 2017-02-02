@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+//	Horiz/Vert	No		x		y		Orig X	Orig Y
+//=========================================================
+//				1		10		1		200		20 (multi of 20 pixels)
+//	H1, V1		2		2		8		40		160
+//				3		7		8		140		160
+//				4		8.5		8		170		160
+//				5		10		8		200		160
+//				6		11.5	8		230		160
+//				7		13		8		260		160
+//	H1, V2		8		18		8		360		160
+//	H2			9		2		10.5	40		210
+//				10		6		10.5	120		210
+//				11		8		10.5	160		210
+//				12		10		10.5	200		210
+//				13		12		10.5	240		210
+//				14		14		10.5	280		210
+//	H2			15		18		10.5	360		210
+//	H3, V1		16		2		13		40		260
+//				17		4.95	13		99		260
+//				18		7.5		13		150		260
+//				19		10		13		200		260
+//				20		12.5	13		250		260
+//				21		15		13		300		260
+//	H3, V2		22		18		13		360		260
+//				23		2		20		40		400
+//				24		6		20		120		400
+//				25		10		20		200		400
+//				26		14		20		280		400
+//				27		18		20		360		400
+		var nodes = {};
+		nodes['1']  = {x:'10'  , y:'1',    coin:'p1'  };
+		nodes['2']  = {x:'2'   , y:'8',    coin:''    };
+		nodes['3']  = {x:'7'   , y:'8',    coin:''    };
+		nodes['4']  = {x:'8.5' , y:'8',    coin:'p2'  };
+		nodes['5']  = {x:'10'  , y:'8',    coin:''    };
+		nodes['6']  = {x:'11.5', y:'8',    coin:'p3'  };
+		nodes['7']  = {x:'13'  , y:'8',    coin:''    };
+		nodes['8']  = {x:'18'  , y:'8',    coin:''    };
+		nodes['9']  = {x:'2'   , y:'10.5', coin:''    };
+		nodes['10'] = {x:'6'   , y:'10.5', coin:'n1'  };
+		nodes['11'] = {x:'8'   , y:'10.5', coin:'n2'  };
+		nodes['12'] = {x:'10'  , y:'10.5', coin:'n3'  };
+		nodes['13'] = {x:'12'  , y:'10.5', coin:'n4'  };
+		nodes['14'] = {x:'14'  , y:'10.5', coin:'n5'  };
+		nodes['15'] = {x:'18'  , y:'10.5', coin:''    };
+		nodes['16'] = {x:'2'   , y:'13',   coin: ''   };
+		nodes['17'] = {x:'4.95', y:'13',   coin: 'n6' };
+		nodes['18'] = {x:'7.5' , y:'13',   coin: 'n7' };
+		nodes['19'] = {x:'10'  , y:'13',   coin: 'n8' };
+		nodes['20'] = {x:'12.5', y:'13',   coin: 'n9' };
+		nodes['21'] = {x:'15'  , y:'13',   coin: 'n10'};
+		nodes['22'] = {x:'18'  , y:'13',   coin: ''   };
+		nodes['23'] = {x:'2'   , y:'20',   coin: 'n11'};
+		nodes['24'] = {x:'6'   , y:'20',   coin: 'n12'};
+		nodes['25'] = {x:'10'  , y:'20',   coin: 'n13'};
+		nodes['26'] = {x:'14'  , y:'20',   coin: 'n14'};
+		nodes['27'] = {x:'18'  , y:'20',   coin: 'n15'};
+		var selectedCoin=0;
+
+// --- Board class : START
+	function Board(graph, zoom_pix) {
+		this.graph = graph;
+		this.zoom_pixels = zoom_pix;
+		this.background = "wood.jpg";
+		this.nodes[27] = {}
+
+	}
+	Board.prototype = {
+		constructor: Board,
+		drawBoard: function() {
+
+		},
+		play: function() {
+
+		},
+		declareWinner: function() {
+
+		}
+	}
+// --- Board class : END
+
+// --- Node class : START
+
+	function Node(N, E, W, S) {
+		this.N = N;
+		this.E = E;
+		this.W = W;
+		this.S = S;
+		this.directions = [this.N, this.E, this.W, this.S];
+		this.currentCoin = {};
+	}
+	
+	Node.prototype = {
+		constructor: Node,
+
+	}
+// --- Node class : END
+
+// --- Coin class : START
+// --- Coin class : END
+
+// --- Player class : START
+// --- Player class : END
+
+// --- Coin class : START
+// --- Coin class : END
+
+// --- Coin class : START
+// --- Coin class : END
+
+	function getNode(x, y) {
+		var n="";
+		for(var i=1; i<28; i++) {
+			var x1 = (nodes[i]['x'])*20-5;
+			var y1 = (nodes[i]['y'])*20-5;
+			var x2 = (nodes[i]['x'])*20+5;
+			var y2 = (nodes[i]['y'])*20+5;
+			if(x >= x1 && y >= y1 && x <= x2 && y <= y2 )
+				return i;
+		}
+		return 0;
+	}
+	function select(n, flag) {
+		if(n) {
+			if(flag == true) { // select this node
+				if(nodes[n]['coin'][0]=='p')
+				{
+					var id="puli-"+nodes[n]['coin'].slice(1);
+					var x =(nodes[n]['x'])*20-10;
+					var y =(nodes[n]['y'])*20-10;
+					var obj = document.getElementById(id);
+					obj.setAttribute('x', x);
+					obj.setAttribute('y', y);
+					obj.setAttribute('width', 20);
+					obj.setAttribute('height', 20);
+				} 
+				else if(nodes[n]['coin'][0]=='n')
+				{
+					var id="naya-"+nodes[n]['coin'].slice(1);
+					var x =(nodes[n]['x'])*20-10;
+					var y =(nodes[n]['y'])*20-10;
+					var obj = document.getElementById(id);
+					obj.setAttribute('x', x);
+					obj.setAttribute('y', y);
+					obj.setAttribute('r', 10);
+				}
+			} 
+			else 
+			{
+				if(nodes[n]['coin'][0]=='p')
+				{
+					var id="puli-"+nodes[n]['coin'].slice(1);
+					var x =(nodes[n]['x'])*20-5;
+					var y =(nodes[n]['y'])*20-5;
+					var obj = document.getElementById(id);
+					obj.setAttribute('x', x);
+					obj.setAttribute('y', y);
+					obj.setAttribute('width', 10);
+					obj.setAttribute('height', 10);
+				} 
+				else if(nodes[n]['coin'][0]=='n')
+				{
+					var id="naya-"+nodes[n]['coin'].slice(1);
+					var x =(nodes[n]['x'])*20-5;
+					var y =(nodes[n]['y'])*20-5;
+					var obj = document.getElementById(id);
+					obj.setAttribute('x', x);
+					obj.setAttribute('y', y);
+					obj.setAttribute('r', 6);
+				}
+			}
+		}
+	}
+	function mouseClick(event) {
+		var n = getNode(event.clientX-8, event.clientY-8);
+		select(selectedCoin, false);
+		selectedCoin = n;
+		select(selectedCoin, true);
+		// alert("Clicked on Node# "+n);
+	}
+</script>
+<svg id="grid" height="800" width="850" border="0" bordercolor='black' onclick="mouseClick(event)" >
+	<image xlink:href="wood.jpg" x="0" y="-60" height="520" width="400" preserveAspectRatio = "none"/>
+<!-- 	<line x1="0" y1="20"  x2="400" y2="20"  style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="40"  x2="400" y2="40"  style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="60"  x2="400" y2="60"  style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="80"  x2="400" y2="80"  style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="100" x2="400" y2="100" style="stroke:rgb(150,150,150);stroke-width:1"/>
+	<line x1="0" y1="120" x2="400" y2="120" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="140" x2="400" y2="140" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="160" x2="400" y2="160" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="180" x2="400" y2="180" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="200" x2="400" y2="200" style="stroke:rgb(150,150,150);stroke-width:2"/>
+	<line x1="0" y1="220" x2="400" y2="220" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="240" x2="400" y2="240" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="260" x2="400" y2="260" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="280" x2="400" y2="280" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="300" x2="400" y2="300" style="stroke:rgb(150,150,150);stroke-width:1"/>
+	<line x1="0" y1="320" x2="400" y2="320" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="340" x2="400" y2="340" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="360" x2="400" y2="360" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="380" x2="400" y2="380" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="0" y1="400" x2="400" y2="400" style="stroke:rgb(150,150,150);stroke-width:2"/>
+
+	<line x1="20"  y1="0" x2="20"  y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="40"  y1="0" x2="40"  y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="60"  y1="0" x2="60"  y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="80"  y1="0" x2="80"  y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="100" y1="0" x2="100" y2="400" style="stroke:rgb(150,150,150);stroke-width:1"/>
+	<line x1="120" y1="0" x2="120" y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="140" y1="0" x2="140" y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="160" y1="0" x2="160" y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="180" y1="0" x2="180" y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="200" y1="0" x2="200" y2="400" style="stroke:rgb(150,150,150);stroke-width:2"/>
+	<line x1="220" y1="0" x2="220" y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="240" y1="0" x2="240" y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="260" y1="0" x2="260" y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="280" y1="0" x2="280" y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="300" y1="0" x2="300" y2="400" style="stroke:rgb(150,150,150);stroke-width:1"/>
+	<line x1="320" y1="0" x2="320" y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="340" y1="0" x2="340" y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="360" y1="0" x2="360" y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="380" y1="0" x2="380" y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
+	<line x1="400" y1="0" x2="400" y2="400" style="stroke:rgb(150,150,150);stroke-width:2"/>
+ -->
+	<path id="line1" d="M 200 20 l -160 380" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+	<path id="line2" d="M 40 400 l 80 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+	<path id="line3" d="M 120 400 l 80 -380" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+	<path id="line1" d="M 200 20 l 0 380" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+	<path id="line2" d="M 200 400 l -80 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+	<path id="line2" d="M 120 400 l 160 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+	<path id="line3" d="M 280 400 l -80 -380" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />	
+	<path id="line4" d="M 200 20 l 160 380" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+	<path id="line4" d="M 360 400 l -80 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+	<path id="line4" d="M 40 160 l 320 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+	<path id="line4" d="M 360 210 l -320 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+	<path id="line4" d="M 40 260 l 320 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+	<path id="line4" d="M 40 160 l 0 100" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+	<path id="line4" d="M 360 160 l 0 100" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+
+	<g stroke="lightgreen" stroke-width="1" fill="lightgreen">
+	    <circle id="1" cx="200" cy="20" r="5" />
+	    <rect id="puli-1" x="195" y="15" width="10" height="10" style="fill:rgb(255,0,0);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="2" cx="40" cy="160" r="5" />
+	    <circle id="3" cx="140" cy="160" r="5" />
+	    <circle id="4" cx="170" cy="160" r="5" />
+	    <rect id="puli-2" x="165" y="155" width="10" height="10" style="fill:rgb(255,0,0);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="5" cx="200" cy="160" r="5" />
+	    <circle id="6" cx="230" cy="160" r="5" />
+	    <rect id="puli-3" x="225" y="155" width="10" height="10" style="fill:rgb(255,0,0);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="7" cx="260" cy="160" r="5" />
+	    <circle id="8" cx="360" cy="160" r="5" />
+
+	    <circle id="9" cx="40" cy="210" r="5" />
+	    <circle id="10" cx="120" cy="210" r="5" />
+	    <circle id="naya-1" cx="120" cy="210" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="11" cx="160" cy="210" r="5" />
+	    <circle id="naya-2" cx="160" cy="210" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="12" cx="200" cy="210" r="5" />
+	    <circle id="naya-3" cx="200" cy="210" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="13" cx="240" cy="210" r="5" />
+	    <circle id="naya-4" cx="240" cy="210" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="14" cx="280" cy="210" r="5" />
+	    <circle id="naya-5" cx="280" cy="210" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="15" cx="360" cy="210" r="5" />
+
+	    <circle id="16" cx="40" cy="260" r="5" />
+	    <circle id="17" cx="99" cy="260" r="5" />
+	    <circle id="naya-6" cx="99" cy="260" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="18" cx="150" cy="260" r="5" />
+	    <circle id="naya-7" cx="150" cy="260" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="19" cx="200" cy="260" r="5" />
+	    <circle id="naya-8" cx="200" cy="260" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="20" cx="250" cy="260" r="5" />
+	    <circle id="naya-9" cx="250" cy="260" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="21" cx="300" cy="260" r="5" />
+	    <circle id="naya-10" cx="300" cy="260" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="22" cx="360" cy="260" r="5" />
+
+	    <circle id="23" cx="40" cy="400" r="5" />
+	    <circle id="naya-11" cx="40" cy="400" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="24" cx="120" cy="400" r="5" />
+	    <circle id="naya-12" cx="120" cy="400" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="25" cx="200" cy="400" r="5" />
+	    <circle id="naya-13" cx="200" cy="400" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="26" cx="280" cy="400" r="5" />
+	    <circle id="naya-14" cx="280" cy="400" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	    <circle id="27" cx="360" cy="400" r="5" />
+	    <circle id="naya-15" cx="360" cy="400" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+  	</g>
+
+	<!--polyline points="200,20 40,25 60,40 80,120 120,140 200,180"
+  		style="fill:none;stroke:red;stroke-width:3" / -->
+</svg>
+<script type="text/javascript">
+window.onload = function() {
+	// var img=document.createElement('img');
+	// img.src='wood.jpg';
+	// // img.onload = function () {
+	// var c=document.getElementById("grid");
+	// var ctx=c.getContext("2d");
+	// ctx.drawImage(img, 10, 10); //90,130,50,60,10,10,60,60);
+}
+//	Horiz/Vert	No		x		y		Orig X	Orig Y
+//=========================================================
+//				1		10		1		200		20 (multi of 20 pixels)
+//	H1, V1		2		2		8		40		160
+//				3		7		8		140		160
+//				4		8.5		8		170		160
+//				5		10		8		200		160
+//				6		11.5	8		230		160
+//				7		13		8		260		160
+//	H1, V2		8		18		8		360		160
+//	H2			9		2		10.5	40		210
+//				10		6		10.5	120		210
+//				11		8		10.5	160		210
+//				12		10		10.5	200		210
+//				13		12		10.5	240		210
+//				14		14		10.5	280		210
+//	H2			15		18		10.5	360		210
+//	H3, V1		16		2		13		40		260
+//				17		4.95	13		99		260
+//				18		7.5		13		150		260
+//				19		10		13		200		260
+//				20		12.5	13		250		260
+//				21		15		13		300		260
+//	H3, V2		22		18		13		360		260
+//				23		2		20		40		400
+//				24		6		20		120		400
+//				25		10		20		200		400
+//				26		14		20		280		400
+//				27		18		20		360		400
+//	
+
+</script>
+</body>
+</html>
