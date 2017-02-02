@@ -1,0 +1,78 @@
+PingPong Game
+-----------------
+In the Pong game, there will two players represented by two paddles, each of them moves and up and down directions. 
+The board is divided into two courts occupied by each player. 
+When the game starts, one player will be the server and he does the serve.
+The ball then starts moving to the other court.
+If it hits the upper and lower sides of the courts, the ball reflects.
+One player will be using up and down arrow keys to move his bat up and down respectively
+The other player will be using 'W' and 'Z' keys to move his bat up and down respectively 
+Each player tries to hit the ball by moving the paddle/bat up and down, and if the ball hits the paddle, it reflects back to the other player's court.
+The speed of the ball reflecting back, depends on the location on the bat where it touches.
+If it touches at sides of the bat, its in top speed. Towards the middle, speed gets reduced.
+If the ball misses the bat, the ball is lost and the other player earns a point.
+The serve switches after every 5 points.
+The points are displayed on the scoreboard.
+Whichever player reaches 21 points first will win. If both reaches 20, then who ever earns a difference of 2 points will be the winner
+
+Nouns:
+---------
+game
+paddles
+board
+court
+player
+ball
+point
+scoreboard
+server
+
+game has two players
+	player has name
+	player has points
+	player has bat
+		bat has length
+		bat has width
+		bat has position
+			position has x, y
+	player has two keys
+		key is an up movement controlling key
+			up arrow is an up movement controlling key 
+			W is an up movement controlling key
+		key is a down movement controlling key
+			down arrow is a down movement controlling key
+			Z is a down movement controlling key
+game has a server
+	server is a player
+game has a winner
+	winner is a player
+game has a scoreboard
+	scoreboard has two player names
+	scoreboard has two points
+game has a board
+	board has two courts
+		court has an upper side
+		court has a lower side
+		court has a side - either right or left
+	board has a dashed line in the middle separating each court
+	board has a ball
+		ball has position & radius
+		ball has speed
+
+Verbs:
+---------
+bat moves up
+bat moves down
+server serves
+ball moves
+ball reflects
+ball hits sides
+ball hits bat
+ball misses
+ball lost
+ball increases speed
+ball decreases speed
+serve switches
+scoreboard shows the points
+reaches
+earns point
