@@ -14,7 +14,7 @@
 //				4		8.5		8		170		160
 //				5		10		8		200		160
 //				6		11.5	8		230		160
-//				7		13		8		260		160
+//				7		13		8		260		160		
 //	H1, V2		8		18		8		360		160
 //	H2			9		2		10.5	40		210
 //				10		6		10.5	120		210
@@ -35,35 +35,45 @@
 //				25		10		20		200		400
 //				26		14		20		280		400
 //				27		18		20		360		400
-		var nodes = {};
-		nodes['1']  = {x:'10'  , y:'1',    coin:'p1'  };
-		nodes['2']  = {x:'2'   , y:'8',    coin:''    };
-		nodes['3']  = {x:'7'   , y:'8',    coin:''    };
-		nodes['4']  = {x:'8.5' , y:'8',    coin:'p2'  };
-		nodes['5']  = {x:'10'  , y:'8',    coin:''    };
-		nodes['6']  = {x:'11.5', y:'8',    coin:'p3'  };
-		nodes['7']  = {x:'13'  , y:'8',    coin:''    };
-		nodes['8']  = {x:'18'  , y:'8',    coin:''    };
-		nodes['9']  = {x:'2'   , y:'10.5', coin:''    };
-		nodes['10'] = {x:'6'   , y:'10.5', coin:'n1'  };
-		nodes['11'] = {x:'8'   , y:'10.5', coin:'n2'  };
-		nodes['12'] = {x:'10'  , y:'10.5', coin:'n3'  };
-		nodes['13'] = {x:'12'  , y:'10.5', coin:'n4'  };
-		nodes['14'] = {x:'14'  , y:'10.5', coin:'n5'  };
-		nodes['15'] = {x:'18'  , y:'10.5', coin:''    };
-		nodes['16'] = {x:'2'   , y:'13',   coin: ''   };
-		nodes['17'] = {x:'4.95', y:'13',   coin: 'n6' };
-		nodes['18'] = {x:'7.5' , y:'13',   coin: 'n7' };
-		nodes['19'] = {x:'10'  , y:'13',   coin: 'n8' };
-		nodes['20'] = {x:'12.5', y:'13',   coin: 'n9' };
-		nodes['21'] = {x:'15'  , y:'13',   coin: 'n10'};
-		nodes['22'] = {x:'18'  , y:'13',   coin: ''   };
-		nodes['23'] = {x:'2'   , y:'20',   coin: 'n11'};
-		nodes['24'] = {x:'6'   , y:'20',   coin: 'n12'};
-		nodes['25'] = {x:'10'  , y:'20',   coin: 'n13'};
-		nodes['26'] = {x:'14'  , y:'20',   coin: 'n14'};
-		nodes['27'] = {x:'18'  , y:'20',   coin: 'n15'};
-		var selectedCoin=0;
+	var xOff=125, yOff=0, mult=20, canWidth=1815, canHeight=1440;
+	var nodes = {};
+	nodes['1']  = {x:'10'  , y:'1',    coin:'p1'  , N:[],   E:[],   W:[],   S:[3, 4, 5, 6, 7]};
+	nodes['2']  = {x:'2'   , y:'8',    coin:''    , N:[],   E:[3],  W:[],   S:[9]};
+	nodes['3']  = {x:'7'   , y:'8',    coin:''    , N:[1],  E:[4],  W:[2],  S:[10]};
+	nodes['4']  = {x:'8.5' , y:'8',    coin:'p2'  , N:[1],  E:[5],  W:[3],  S:[11]};
+	nodes['5']  = {x:'10'  , y:'8',    coin:''    , N:[1],  E:[6],  W:[4],  S:[12]};
+	nodes['6']  = {x:'11.5', y:'8',    coin:'p3'  , N:[1],  E:[7],  W:[5],  S:[13]};
+	nodes['7']  = {x:'13'  , y:'8',    coin:''    , N:[1],  E:[8],  W:[6],  S:[14]};
+	nodes['8']  = {x:'18'  , y:'8',    coin:''    , N:[],   E:[],   W:[7],  S:[15]};
+	nodes['9']  = {x:'2'   , y:'10.5', coin:''    , N:[2],  E:[10], W:[],   S:[16]};
+	nodes['10'] = {x:'6'   , y:'10.5', coin:'n1'  , N:[3],  E:[11], W:[9],  S:[17]};
+	nodes['11'] = {x:'8'   , y:'10.5', coin:'n2'  , N:[4],  E:[12], W:[10], S:[18]};
+	nodes['12'] = {x:'10'  , y:'10.5', coin:'n3'  , N:[5],  E:[13], W:[11], S:[19]};
+	nodes['13'] = {x:'12'  , y:'10.5', coin:'n4'  , N:[6],  E:[14], W:[12], S:[20]};
+	nodes['14'] = {x:'14'  , y:'10.5', coin:'n5'  , N:[7],  E:[15], W:[13], S:[21]};
+	nodes['15'] = {x:'18'  , y:'10.5', coin:''    , N:[8],  E:[],   W:[14], S:[22]};
+	nodes['16'] = {x:'2'   , y:'13',   coin: ''   , N:[9],  E:[17], W:[],   S:[]};
+	nodes['17'] = {x:'4.95', y:'13',   coin: 'n6' , N:[10], E:[18], W:[16], S:[23]};
+	nodes['18'] = {x:'7.5' , y:'13',   coin: 'n7' , N:[11], E:[19], W:[17], S:[24]};
+	nodes['19'] = {x:'10'  , y:'13',   coin: 'n8' , N:[12], E:[20], W:[18], S:[25]};
+	nodes['20'] = {x:'12.5', y:'13',   coin: 'n9' , N:[13], E:[21], W:[19], S:[26]};
+	nodes['21'] = {x:'15'  , y:'13',   coin: 'n10', N:[14], E:[22], W:[20], S:[27]};
+	nodes['22'] = {x:'18'  , y:'13',   coin: ''   , N:[15], E:[],   W:[21], S:[]};
+	nodes['23'] = {x:'2'   , y:'20',   coin: 'n11', N:[17], E:[24], W:[],   S:[]};
+	nodes['24'] = {x:'6'   , y:'20',   coin: 'n12', N:[18], E:[25], W:[23], S:[]};
+	nodes['25'] = {x:'10'  , y:'20',   coin: 'n13', N:[19], E:[26], W:[24], S:[]};
+	nodes['26'] = {x:'14'  , y:'20',   coin: 'n14', N:[20], E:[27], W:[25], S:[]};
+	nodes['27'] = {x:'18'  , y:'20',   coin: 'n15', N:[21], E:[],   W:[26], S:[]};
+
+	var players 	 = [];
+	var coin         = {id: '', node: ''};
+	var move         = {w: 'p1', f: '1', t: '5'}; // w - who's move (puli or naya), f - from which node, t - to which node
+	// var coins        = [coin1, coin2, coin3]; // Collection/Array of coins
+	var puliPlayer   = {onhand: ['coin2', 'coin3'], blocked:['coin1'], moves: ['move1', 'move2', 'move3']};
+	var nayaPlayer   = {onhand: ['coin3', 'coin4', 'coin15'], dead: ['coin1', 'coin2'], moves: ['move1', 'move2', 'move3']};
+    var moves 		 = []; // This records all the moves. Ctrl+Z (Undo) uses this!
+    var currentMove  = 0;
+	var selectedCoin = 0;
 
 // --- Board class : START
 	function Board(graph, zoom_pix) {
@@ -116,13 +126,124 @@
 // --- Coin class : START
 // --- Coin class : END
 
+
+/*	var lines = [];
+	lines.addLine = function( line ){
+		this.push( line );
+		return line;
+	}*/
+
+	SVG = {
+		createCanvas : function(containerId){
+	    var container = document.getElementById( containerId );
+	    var canvas = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+	    canvas.setAttribute('width', canWidth);
+	    canvas.setAttribute('height', canHeight);
+	    container.append( canvas );    
+	    return canvas;
+	  },
+	  createPolygon : function (drawPath, color, w) {
+	  	var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+	  	var points = "";
+	  	for(i=0; i<drawPath.length; i++) {
+	  		points += (xOff+mult*nodes[drawPath[i]]['x']) +","+(yOff+mult*nodes[drawPath[i]]['y'])+" ";
+	  	}
+		polygon.setAttribute("points", points.trim());
+	    polygon.setAttribute('stroke', color);
+	    polygon.setAttribute('stroke-width', w);
+	    polygon.setAttribute('fill', 'none');
+	    return polygon;
+	  },
+	  drawNodes : function (canvas) {
+	  	for(i=1; i<28; i++) {
+	  		// <circle id="1" cx="200" cy="20" r="2" />
+	  		var circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+	  		var x = xOff+mult*nodes[i]['x'];
+	  		var y = yOff+mult*nodes[i]['y'];
+	  		circle.setAttribute('cx', x);
+	  		circle.setAttribute('cy', y);
+	  		circle.setAttribute('r', '2');
+	  		circle.setAttribute('fill', 'lightgreen');
+	  		circle.setAttribute('stroke', 'lightgreen');
+	  		// circle.setAttribute('id', i);
+	  		canvas.appendChild(circle);
+
+	  		 // <text x="200" y="20">1</text>
+	  		var label = document.createElementNS('http://www.w3.org/2000/svg','text');	
+	  		label.setAttribute('x', x);
+	  		label.setAttribute('y', y);
+	  		label.setAttribute('visibility', 'hidden');
+	  		// label.setAttribute('innerHTML', i);
+	  		label.innerHTML = i;
+	  		canvas.appendChild(label);
+
+			// <rect id="puli-1" x="195" y="15" width="10" height="10" style="fill:rgb(255,0,0);stroke-width:1;stroke:rgb(255, 255, 0)" />
+			var puli = document.createElementNS('http://www.w3.org/2000/svg','rect');
+			puli.setAttribute('width', 10);
+	    	puli.setAttribute('height', 10);
+	    	puli.setAttribute('x', x-5);
+	    	puli.setAttribute('y', y-5);
+	  		puli.setAttribute('fill', 'red');
+	  		puli.setAttribute('stroke', 'yellow');
+	  		puli.setAttribute('id', 'puli-'+i);
+	  		puli.setAttribute('visibility', 'hidden');
+	  		canvas.appendChild(puli);
+
+	  		// <circle id="naya-1" cx="120" cy="210" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
+	  		var naya = document.createElementNS('http://www.w3.org/2000/svg','circle');
+	  		naya.setAttribute('cx', x);
+	  		naya.setAttribute('cy', y);
+	  		naya.setAttribute('r', '6');
+	  		naya.setAttribute('fill', 'blue');
+	  		naya.setAttribute('stroke', 'yellow');
+	  		naya.setAttribute('id', 'naya-'+i);
+	  		naya.setAttribute('visibility', 'hidden');
+	  		canvas.appendChild(naya);
+	  	}
+	  }
+	}
+    function addCoinToPuliPlayer(i) {
+        coin['id'] = 'p' + i;
+        coin['node'] = '';
+        puliPlayer['onhand'].push(coin);
+    }
+    function addCoinToNayaPlayer(i) {
+        coin['id'] = 'n' + i;
+        coin['node'] = '';
+        nayaPlayer['onhand'].push(coin);
+    }
+    function drawBoard() {
+        document.body.style.backgroundImage = "url('file:///home/dilip/1kukulabs/game/PnP/wood.jpg')";
+        var drawPath = [1, 23, 24, 1, 25, 24, 26, 1, 27, 26, 6, 2, 9, 15, 22, 16, 9, 15, 8, 6];
+        var x = document.createElement("DIV");
+        x.setAttribute('id', 'board');
+        document.body.appendChild(x);
+        var canvas = SVG.createCanvas('board');
+        canvas.setAttribute('onclick', 'mouseClick(event)');
+        canvas.appendChild(SVG.createPolygon(drawPath, 'rgb(81, 38, 2)', 3));
+        canvas.appendChild(SVG.createPolygon(drawPath, 'rgb(0, 0, 0)', 0.5));
+        SVG.drawNodes(canvas);
+        //Now lets create the Puli & Naya players with 3 puli coins and 15 naya coins
+        for (int i = 1; i < 16; i++) {
+        	if(i<4)
+            	addCoinToPuliPlayer(i);
+        	addCoinToNayaPlayer(i);
+        }
+        puliPlayer['blocked'] = [];
+        puliPlayer['moves'] = [];
+
+        nayaPlayer['dead'] = [];
+        nayaPlayer['moves'] = [];
+	}
+
+
 	function getNode(x, y) {
 		var n="";
 		for(var i=1; i<28; i++) {
-			var x1 = (nodes[i]['x'])*20-5;
-			var y1 = (nodes[i]['y'])*20-5;
-			var x2 = (nodes[i]['x'])*20+5;
-			var y2 = (nodes[i]['y'])*20+5;
+			var x1 = (nodes[i]['x'])*mult+xOff-5;
+			var y1 = (nodes[i]['y'])*mult+yOff-5;
+			var x2 = (nodes[i]['x'])*mult+xOff+5;
+			var y2 = (nodes[i]['y'])*mult+yOff+5;
 			if(x >= x1 && y >= y1 && x <= x2 && y <= y2 )
 				return i;
 		}
@@ -153,7 +274,7 @@
 					obj.setAttribute('r', 10);
 				}
 			} 
-			else 
+			else // unselect
 			{
 				if(nodes[n]['coin'][0]=='p')
 				{
@@ -177,8 +298,10 @@
 					obj.setAttribute('r', 6);
 				}
 			}
+			showCoin(nodes[n]['coin']);
 		}
 	}
+	
 	function mouseClick(event) {
 		var n = getNode(event.clientX-8, event.clientY-8);
 		select(selectedCoin, false);
@@ -186,9 +309,75 @@
 		select(selectedCoin, true);
 		// alert("Clicked on Node# "+n);
 	}
+	function selectTheCoin(p) {
+		var c;
+		if(p['onhand'].length > 0)
+			c = p['onhand'].shift();
+		else
+
+		var coinObj = document.getElementById( c['id'] );
+	}
+
+	function showCoin(coinId) {
+		document.getElementById( coinId ).setAttribute('visibility', 'visible');
+	}
+
+	function hideCoin(coinId) {
+		document.getElementById( coinId ).setAttribute('visibility', 'hidden');
+	}
+
+	function putCoin(c, n) {
+		nodes[n]['coin']=c;
+		showCoin(c);
+	}
+	function remCoin(c, n) {
+		nodes[n]['coin']="";
+		hideCoin(c);
+	}
+	function movCoin(c, f, t) {
+		remCoin(c, n);
+		putCoin(c, n);
+	}
+
+	function puliPlay() {
+
+	}
+
+	function nayaPlay() {
+
+	}
+
+	function play(player) {
+		selectTheCoin(player);
+		if(player is of type(puliPlayer)) {
+
+		} else {
+			
+		}
+	}
+// 1. draw the board
+drawBoard();
+// 2. ask user to select the coin
+play(puliPlayer);
+play(nayaPlayer);
+showCoin('puli-1');
+showCoin('naya-5');
+// 2.1 If puli, ask player to choose 3 positions
+// 2.2 If naya, player can choose to place the naya whereever he wants one at a time when his turn comes
+// 3. board.play()
+// 	1. do
+// 	2.   player=naya then puli
+// 	3.   player.play()
+// 	4.   player = naya.won()
+// 	5.   if(player == none)
+// 	6		player = puli.won()
+// 	7. while(player == none)
+// 4. board.declare_winner(player)
+
 </script>
-<svg id="grid" height="800" width="850" border="0" bordercolor='black' onclick="mouseClick(event)" >
-	<image xlink:href="wood.jpg" x="0" y="-60" height="520" width="400" preserveAspectRatio = "none"/>
+<!-- <div name='container'> -->
+<!-- <svg id="board" height="440" width="815" onclick="mouseClick(event)" > -->
+	<!-- <image xlink:href="wood.jpg" x="0" y="-60" height="495" width="800" preserveAspectRatio = "none"/> -->
 <!-- 	<line x1="0" y1="20"  x2="400" y2="20"  style="stroke:rgb(150,150,150);stroke-width:0.5"/>
 	<line x1="0" y1="40"  x2="400" y2="40"  style="stroke:rgb(150,150,150);stroke-width:0.5"/>
 	<line x1="0" y1="60"  x2="400" y2="60"  style="stroke:rgb(150,150,150);stroke-width:0.5"/>
@@ -231,115 +420,117 @@
 	<line x1="380" y1="0" x2="380" y2="400" style="stroke:rgb(150,150,150);stroke-width:0.5"/>
 	<line x1="400" y1="0" x2="400" y2="400" style="stroke:rgb(150,150,150);stroke-width:2"/>
  -->
-	<path id="line1" d="M 200 20 l -160 380" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
-	<path id="line2" d="M 40 400 l 80 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
-	<path id="line3" d="M 120 400 l 80 -380" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
-	<path id="line1" d="M 200 20 l 0 380" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
-	<path id="line2" d="M 200 400 l -80 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
-	<path id="line2" d="M 120 400 l 160 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
-	<path id="line3" d="M 280 400 l -80 -380" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />	
-	<path id="line4" d="M 200 20 l 160 380" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
-	<path id="line4" d="M 360 400 l -80 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
-	<path id="line4" d="M 40 160 l 320 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
-	<path id="line4" d="M 360 210 l -320 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
-	<path id="line4" d="M 40 260 l 320 0" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
-	<path id="line4" d="M 40 160 l 0 100" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
-	<path id="line4" d="M 360 160 l 0 100" stroke="rgb(98, 52, 0)" stroke-width="3" fill="none" />
+<!-- 	<path id="line1"  d="M 200 20  l -160 380"  stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />
+	<path id="line2"  d="M 40  400 l 80   0"    stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />
+	<path id="line3"  d="M 120 400 l 80   -380" stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />
+	<path id="line4"  d="M 200 20  l 0    380"  stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />
+	<path id="line5"  d="M 200 400 l -80  0"    stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />
+	<path id="line6"  d="M 120 400 l 160  0"    stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />
+	<path id="line7"  d="M 280 400 l -80 -380"  stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />	
+	<path id="line8"  d="M 200 20  l 160  380"  stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />
+	<path id="line9"  d="M 360 400 l -80  0"    stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />
+	<path id="line10" d="M 40  160 l 320  0"    stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />
+	<path id="line11" d="M 360 210 l -320 0"    stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />
+	<path id="line12" d="M 40  260 l 320  0"    stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />
+	<path id="line13" d="M 40  160 l 0    100"  stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />
+	<path id="line14" d="M 360 160 l 0    100"  stroke="rgb(81, 38, 2)" stroke-width="3" fill="none" />
 
-	<g stroke="lightgreen" stroke-width="1" fill="lightgreen">
-	    <circle id="1" cx="200" cy="20" r="5" />
+	<path id="line1"  d="M 200 20  l -160 380"  stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" />
+	<path id="line2"  d="M 40  400 l 80   0"    stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" />
+	<path id="line3"  d="M 120 400 l 80   -380" stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" />
+	<path id="line4"  d="M 200 20  l 0    380"  stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" />
+	<path id="line5"  d="M 200 400 l -80  0"    stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" />
+	<path id="line6"  d="M 120 400 l 160  0"    stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" />
+	<path id="line7"  d="M 280 400 l -80 -380"  stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" />	
+	<path id="line8"  d="M 200 20  l 160  380"  stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" />
+	<path id="line9"  d="M 360 400 l -80  0"    stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" />
+	<path id="line10" d="M 40  160 l 320  0"    stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" />
+	<path id="line11" d="M 360 210 l -320 0"    stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" />
+	<path id="line12" d="M 40  260 l 320  0"    stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" />
+	<path id="line13" d="M 40  160 l 0    100"  stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" />
+	<path id="line14" d="M 360 160 l 0    100"  stroke="rgb(0, 0, 0)" stroke-width="0.5" fill="none" /> -->
+
+	<!-- <g stroke="lightgreen" stroke-width="1" fill="lightgreen">
+	    <circle id="1" cx="200" cy="20" r="2" />
+	    <text x="200" y="20">1</text>
 	    <rect id="puli-1" x="195" y="15" width="10" height="10" style="fill:rgb(255,0,0);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="2" cx="40" cy="160" r="5" />
-	    <circle id="3" cx="140" cy="160" r="5" />
-	    <circle id="4" cx="170" cy="160" r="5" />
+	    <circle id="2" cx="40" cy="160" r="2" />
+	    <text x="40" y="160">2</text>
+	    <circle id="3" cx="140" cy="160" r="2" />
+	    <text x="140" y="160">3</text>
+	    <circle id="4" cx="170" cy="160" r="2" />
+	    <text x="170" y="160">4</text>
 	    <rect id="puli-2" x="165" y="155" width="10" height="10" style="fill:rgb(255,0,0);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="5" cx="200" cy="160" r="5" />
-	    <circle id="6" cx="230" cy="160" r="5" />
+	    <circle id="5" cx="200" cy="160" r="2" />
+	    <text x="200" y="160">5</text>
+	    <circle id="6" cx="230" cy="160" r="2" />
+	    <text x="230" y="160">6</text>
 	    <rect id="puli-3" x="225" y="155" width="10" height="10" style="fill:rgb(255,0,0);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="7" cx="260" cy="160" r="5" />
-	    <circle id="8" cx="360" cy="160" r="5" />
+	    <circle id="7" cx="260" cy="160" r="2" />
+	    <text x="260" y="160">7</text>
+	    <circle id="8" cx="360" cy="160" r="2" />
+	    <text x="360" y="160">8</text>
 
-	    <circle id="9" cx="40" cy="210" r="5" />
-	    <circle id="10" cx="120" cy="210" r="5" />
+	    <circle id="9" cx="40" cy="210" r="2" />
+	    <text x="40" y="210">9</text>
+	    <circle id="10" cx="120" cy="210" r="2" />
+	    <text x="120" y="210">10</text>
 	    <circle id="naya-1" cx="120" cy="210" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="11" cx="160" cy="210" r="5" />
+	    <circle id="11" cx="160" cy="210" r="2" />
+	    <text x="160" y="210">11</text>
 	    <circle id="naya-2" cx="160" cy="210" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="12" cx="200" cy="210" r="5" />
+	    <circle id="12" cx="200" cy="210" r="2" />
+	    <text x="200" y="210">12</text>
 	    <circle id="naya-3" cx="200" cy="210" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="13" cx="240" cy="210" r="5" />
+	    <circle id="13" cx="240" cy="210" r="2" />
+	    <text x="240" y="210">13</text>
 	    <circle id="naya-4" cx="240" cy="210" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="14" cx="280" cy="210" r="5" />
+	    <circle id="14" cx="280" cy="210" r="2" />
+	    <text x="280" y="210">14</text>
 	    <circle id="naya-5" cx="280" cy="210" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="15" cx="360" cy="210" r="5" />
+	    <circle id="15" cx="360" cy="210" r="2" />
+	    <text x="360" y="210">15</text>
 
-	    <circle id="16" cx="40" cy="260" r="5" />
-	    <circle id="17" cx="99" cy="260" r="5" />
+	    <circle id="16" cx="40" cy="260" r="2" />
+	    <text x="40" y="260">16</text>
+	    <circle id="17" cx="99" cy="260" r="2" />
+	    <text x="99" y="260">17</text>
 	    <circle id="naya-6" cx="99" cy="260" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="18" cx="150" cy="260" r="5" />
+	    <circle id="18" cx="150" cy="260" r="2" />
+	    <text x="150" y="260">18</text>
 	    <circle id="naya-7" cx="150" cy="260" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="19" cx="200" cy="260" r="5" />
+	    <circle id="19" cx="200" cy="260" r="2" />
+	    <text x="200" y="260">19</text>
 	    <circle id="naya-8" cx="200" cy="260" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="20" cx="250" cy="260" r="5" />
+	    <circle id="20" cx="250" cy="260" r="2" />
+	    <text x="250" y="260">20</text>
 	    <circle id="naya-9" cx="250" cy="260" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="21" cx="300" cy="260" r="5" />
+	    <circle id="21" cx="300" cy="260" r="2" />
+	    <text x="300" y="260">21</text>
 	    <circle id="naya-10" cx="300" cy="260" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="22" cx="360" cy="260" r="5" />
+	    <circle id="22" cx="360" cy="260" r="2" />
+	    <text x="360" y="260">22</text>
 
-	    <circle id="23" cx="40" cy="400" r="5" />
+	    <circle id="23" cx="40" cy="400" r="2" />
+	    <text x="40" y="400">23</text>
 	    <circle id="naya-11" cx="40" cy="400" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="24" cx="120" cy="400" r="5" />
+	    <circle id="24" cx="120" cy="400" r="2" />
+	    <text x="120" y="400">24</text>
 	    <circle id="naya-12" cx="120" cy="400" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="25" cx="200" cy="400" r="5" />
+	    <circle id="25" cx="200" cy="400" r="2" />
+	    <text x="200" y="400">25</text>
 	    <circle id="naya-13" cx="200" cy="400" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="26" cx="280" cy="400" r="5" />
+	    <circle id="26" cx="280" cy="400" r="2" />
+	    <text x="280" y="400">26</text>
 	    <circle id="naya-14" cx="280" cy="400" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-	    <circle id="27" cx="360" cy="400" r="5" />
+	    <circle id="27" cx="360" cy="400" r="2" />
+	    <text x="360" y="400">27</text>
 	    <circle id="naya-15" cx="360" cy="400" r="6" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(255, 255, 0)" />
-  	</g>
+  	</g> -->
 
 	<!--polyline points="200,20 40,25 60,40 80,120 120,140 200,180"
   		style="fill:none;stroke:red;stroke-width:3" / -->
 </svg>
-<script type="text/javascript">
-window.onload = function() {
-	// var img=document.createElement('img');
-	// img.src='wood.jpg';
-	// // img.onload = function () {
-	// var c=document.getElementById("grid");
-	// var ctx=c.getContext("2d");
-	// ctx.drawImage(img, 10, 10); //90,130,50,60,10,10,60,60);
-}
-//	Horiz/Vert	No		x		y		Orig X	Orig Y
-//=========================================================
-//				1		10		1		200		20 (multi of 20 pixels)
-//	H1, V1		2		2		8		40		160
-//				3		7		8		140		160
-//				4		8.5		8		170		160
-//				5		10		8		200		160
-//				6		11.5	8		230		160
-//				7		13		8		260		160
-//	H1, V2		8		18		8		360		160
-//	H2			9		2		10.5	40		210
-//				10		6		10.5	120		210
-//				11		8		10.5	160		210
-//				12		10		10.5	200		210
-//				13		12		10.5	240		210
-//				14		14		10.5	280		210
-//	H2			15		18		10.5	360		210
-//	H3, V1		16		2		13		40		260
-//				17		4.95	13		99		260
-//				18		7.5		13		150		260
-//				19		10		13		200		260
-//				20		12.5	13		250		260
-//				21		15		13		300		260
-//	H3, V2		22		18		13		360		260
-//				23		2		20		40		400
-//				24		6		20		120		400
-//				25		10		20		200		400
-//				26		14		20		280		400
-//				27		18		20		360		400
-//	
-
-</script>
+</div>
 </body>
 </html>
